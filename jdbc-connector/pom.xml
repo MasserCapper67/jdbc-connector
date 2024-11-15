@@ -4,9 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <scm>
+        <url>https://github.com/alexceend/db-connector</url>
+        <connection>scm:git:git://github.com/MasserCapper67/jdbc-connector.git</connection>
+    </scm>
+
     <groupId>com.masser</groupId>
     <artifactId>jdbc-connector</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.3</version>
 
     <packaging>
         jar
@@ -33,15 +38,4 @@
             <url>https://maven.pkg.github.com/MasserCapper67/jdbc-connector</url>
         </repository>
     </distributionManagement>
-
-    <build>
-        <plugins>
-            <!-- Maven Deploy Plugin to publish to GitHub Maven repo -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.2</version>
-            </plugin>
-        </plugins>
-    </build>
 </project>
