@@ -1,4 +1,4 @@
-package com.masser;
+package com.masser.jdbc;
 
 import java.sql.*;
 
