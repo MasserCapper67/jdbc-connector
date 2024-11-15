@@ -25,8 +25,39 @@ public class Connector {
     }
 
     public ResultSet executeQuery(PreparedStatement statement) throws SQLException {
-        return statement.executeQuery();
+        System.out.println("Executing query: " + getQuery(statement));
+
+        ResultSet resultSet = statement.executeQuery();
+
+        printResultSet(resultSet);
+
+        return resultSet;
     }
 
+    private String getQuery(PreparedStatement statement) {
+        String query = statement.toString();
+        int index = query.indexOf(": ");
+        if (index > 0) {
+            return query.substring(index + 2);
+        }
+        return query;
+    }
 
+    private void printResultSet(ResultSet resultSet) throws SQLException {
+        ResultSetMetaData metaData = resultSet.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        for (int i = 1; i <= columnCount; i++) {
+            System.out.printf("%-20s", metaData.getColumnName(i));
+        }
+        System.out.println();
+        System.out.println("-".repeat(20 * columnCount));
+
+        while (resultSet.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                System.out.printf("%-20s", resultSet.getString(i));
+            }
+            System.out.println();
+        }
+    }
 }
