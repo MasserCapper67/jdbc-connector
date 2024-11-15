@@ -1,4 +1,4 @@
-package org.example;
+package masser.jdbc;
 
 import java.sql.*;
 
@@ -20,11 +20,8 @@ public class Connector {
         return DB_USER;
     }
 
-    public PreparedStatement createStatement(String sqlStatement) throws SQLException {
-        return connection.prepareStatement(sqlStatement);
-    }
-
-    public ResultSet executeQuery(PreparedStatement statement) throws SQLException {
+    public ResultSet executeQuery(String sqlStatement) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(sqlStatement);
         System.out.println("Executing query: " + getQuery(statement));
 
         ResultSet resultSet = statement.executeQuery();
