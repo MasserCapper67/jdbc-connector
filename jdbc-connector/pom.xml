@@ -4,14 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <scm>
-        <url>https://github.com/alexceend/db-connector</url>
-        <connection>scm:git:git://github.com/MasserCapper67/jdbc-connector.git</connection>
-    </scm>
-
     <groupId>com.masser</groupId>
     <artifactId>jdbc-connector</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.4</version>
 
     <packaging>
         jar
