@@ -17,7 +17,7 @@
     <repositories>
         <repository>
             <id>github</id>
-            <url>https://maven.pkg.github.com/massercapper67/jdbc-connector</url>
+            <url>https://maven.pkg.github.com/MasserCapper67/jdbc-connector</url>
         </repository>
     </repositories>
 
@@ -28,5 +28,13 @@
             <version>8.0.18</version>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/MasserCapper67/jdbc-connector</url>
+        </repository>
+    </distributionManagement>
 
 </project>
