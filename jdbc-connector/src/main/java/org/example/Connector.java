@@ -31,6 +31,8 @@ public class Connector {
 
         printResultSet(resultSet);
 
+        statement.close();
+
         return resultSet;
     }
 
