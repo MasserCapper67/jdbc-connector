@@ -1,6 +1,7 @@
 package com.masser.jdbc;
 
 import java.sql.*;
+import java.util.Map;
 
 public class Connector {
     private final String DB_USER;
@@ -20,7 +21,7 @@ public class Connector {
         return DB_USER;
     }
 
-    public ResultSet executeQuery(String sqlStatement) throws SQLException {
+    public void executeQuery(String sqlStatement) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(sqlStatement);
         System.out.println("Executing query: " + getQuery(statement));
 
@@ -29,8 +30,6 @@ public class Connector {
         printResultSet(resultSet);
 
         statement.close();
-
-        return resultSet;
     }
 
     private String getQuery(PreparedStatement statement) {
@@ -57,6 +56,43 @@ public class Connector {
                 System.out.printf("%-20s", resultSet.getString(i));
             }
             System.out.println();
+        }
+    }
+
+    public void createTable(String tableName, String primaryKey,
+                            String primaryKeyType, Map<String, String> additionalColumns,
+                            Map<String, String[]> foreignKeys) throws SQLException {
+        if ((!tableName.matches("[a-zA-Z0-9_]+")) || (!primaryKey.matches("[a-zA-Z0-9_]+"))) {
+            throw new SQLException("Invalid table name: " + tableName);
+        }
+
+        StringBuilder sql = new StringBuilder("CREATE TABLE ").append(tableName).append(" (");
+        sql.append(primaryKey).append(" ").append(primaryKeyType).append(" PRIMARY KEY");
+
+        if (additionalColumns != null) {
+            for (Map.Entry<String, String> column : additionalColumns.entrySet()) {
+                if (!column.getKey().matches("[a-zA-Z0-9_]+")) {
+                    throw new SQLException("Invalid column name: " + column.getKey());
+                }
+                sql.append(", ").append(column.getKey()).append(" ").append(column.getValue());
+            }
+        }
+
+        if (foreignKeys != null) {
+            for (Map.Entry<String, String[]> foreignKey : foreignKeys.entrySet()) {
+                String columnName = foreignKey.getKey();
+                String[] references = foreignKey.getValue();
+                if (references.length != 2 || !references[0].matches("[a-zA-Z0-9_]+") || !references[1].matches("[a-zA-Z0-9_]+")) {
+                    throw new SQLException("Invalid foreign key reference for column: " + columnName);
+                }
+                sql.append(", FOREIGN KEY (").append(columnName).append(") REFERENCES ");
+                sql.append(references[0]).append("(").append(references[1]).append(")");
+            }
+        }
+        sql.append(")");
+
+        try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+            statement.executeUpdate();
         }
     }
 }
