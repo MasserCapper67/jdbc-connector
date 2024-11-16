@@ -61,7 +61,7 @@ public class Connector {
 
     public void createTable(String tableName, String primaryKey,
                             String primaryKeyType, Map<String, String> additionalColumns,
-                            Map<String, String[]> foreignKeys) throws SQLException {
+                            Map<String, String[]> foreignKeys, String compositePrimaryKey) throws SQLException {
         if ((!tableName.matches("[a-zA-Z0-9_]+"))) {
             throw new SQLException("Invalid table name: " + tableName);
         }
@@ -93,6 +93,10 @@ public class Connector {
                 sql.append("FOREIGN KEY (").append(columnName).append(") REFERENCES ");
                 sql.append(references[0]).append("(").append(references[1]).append("), ");
             }
+        }
+
+        if (compositePrimaryKey != null && !compositePrimaryKey.isBlank()) {
+            sql.append("PRIMARY KEY (").append(compositePrimaryKey).append("), ");
         }
 
         if (sql.charAt(sql.length() - 2) == ',') {
