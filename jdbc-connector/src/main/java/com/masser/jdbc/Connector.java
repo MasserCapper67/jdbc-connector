@@ -67,7 +67,12 @@ public class Connector {
         }
 
         StringBuilder sql = new StringBuilder("CREATE TABLE ").append(tableName).append(" (");
-        sql.append(primaryKey).append(" ").append(primaryKeyType).append(" PRIMARY KEY");
+        if (primaryKey != null && primaryKeyType != null) {
+            if (!primaryKey.matches("[a-zA-Z0-9_]+")) {
+                throw new SQLException("Invalid primary key: " + primaryKey);
+            }
+            sql.append(primaryKey).append(" ").append(primaryKeyType).append(" PRIMARY KEY");
+        }
 
         if (additionalColumns != null) {
             for (Map.Entry<String, String> column : additionalColumns.entrySet()) {
@@ -89,6 +94,11 @@ public class Connector {
                 sql.append(references[0]).append("(").append(references[1]).append(")");
             }
         }
+
+        if (sql.charAt(sql.length() - 2) == ',') {
+            sql.deleteCharAt(sql.length() - 2);
+        }
+
         sql.append(")");
 
         try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
