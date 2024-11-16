@@ -95,10 +95,6 @@ public class Connector {
             }
         }
 
-        if (sql.charAt(sql.length() - 2) == ',') {
-            sql.deleteCharAt(sql.length() - 2);
-        }
-
         sql.append(")");
 
         try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
