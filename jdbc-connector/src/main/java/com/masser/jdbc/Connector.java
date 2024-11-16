@@ -62,7 +62,7 @@ public class Connector {
     public void createTable(String tableName, String primaryKey,
                             String primaryKeyType, Map<String, String> additionalColumns,
                             Map<String, String[]> foreignKeys) throws SQLException {
-        if ((!tableName.matches("[a-zA-Z0-9_]+")) || (!primaryKey.matches("[a-zA-Z0-9_]+"))) {
+        if ((!tableName.matches("[a-zA-Z0-9_]+"))) {
             throw new SQLException("Invalid table name: " + tableName);
         }
 
