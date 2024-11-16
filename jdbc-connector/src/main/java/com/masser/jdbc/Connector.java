@@ -33,6 +33,13 @@ public class Connector {
         return resultSet;
     }
 
+    public void executeUpdate(String sqlStatement) throws SQLException {
+        try (PreparedStatement statement = connection.prepareStatement(sqlStatement)) {
+            System.out.println("Executing update: " + getQuery(statement));
+            statement.executeUpdate();
+        }
+    }
+
     private String getQuery(PreparedStatement statement) {
         String query = statement.toString();
         int index = query.indexOf(": ");
