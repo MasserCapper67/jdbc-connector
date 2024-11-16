@@ -21,7 +21,7 @@ public class Connector {
         return DB_USER;
     }
 
-    public void executeQuery(String sqlStatement) throws SQLException {
+    public ResultSet executeQuery(String sqlStatement) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(sqlStatement);
         System.out.println("Executing query: " + getQuery(statement));
 
@@ -30,6 +30,7 @@ public class Connector {
         printResultSet(resultSet);
 
         statement.close();
+        return resultSet;
     }
 
     private String getQuery(PreparedStatement statement) {
