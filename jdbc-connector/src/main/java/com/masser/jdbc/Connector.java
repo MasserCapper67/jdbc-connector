@@ -71,7 +71,7 @@ public class Connector {
             if (!primaryKey.matches("[a-zA-Z0-9_]+")) {
                 throw new SQLException("Invalid primary key: " + primaryKey);
             }
-            sql.append(primaryKey).append(" ").append(primaryKeyType).append(" PRIMARY KEY");
+            sql.append(primaryKey).append(" ").append(primaryKeyType).append(" PRIMARY KEY, ");
         }
 
         if (additionalColumns != null) {
@@ -79,7 +79,7 @@ public class Connector {
                 if (!column.getKey().matches("[a-zA-Z0-9_]+")) {
                     throw new SQLException("Invalid column name: " + column.getKey());
                 }
-                sql.append(", ").append(column.getKey()).append(" ").append(column.getValue());
+                sql.append(column.getKey()).append(" ").append(column.getValue()).append(", ");
             }
         }
 
@@ -90,9 +90,13 @@ public class Connector {
                 if (references.length != 2 || !references[0].matches("[a-zA-Z0-9_]+") || !references[1].matches("[a-zA-Z0-9_]+")) {
                     throw new SQLException("Invalid foreign key reference for column: " + columnName);
                 }
-                sql.append(", FOREIGN KEY (").append(columnName).append(") REFERENCES ");
-                sql.append(references[0]).append("(").append(references[1]).append(")");
+                sql.append("FOREIGN KEY (").append(columnName).append(") REFERENCES ");
+                sql.append(references[0]).append("(").append(references[1]).append("), ");
             }
+        }
+
+        if (sql.charAt(sql.length() - 2) == ',') {
+            sql.deleteCharAt(sql.length() - 2);
         }
 
         sql.append(")");
